@@ -1,4 +1,5 @@
-﻿namespace phoneBookApp
+﻿using phoneBookApp.Utility;
+namespace phoneBookApp
 {
     class Program
     {
@@ -68,6 +69,10 @@
 
                 Console.WriteLine("\nError: Name and Phone Number cannot be empty!");
             }
+            else if (!PhoneValidator.IsValidPhoneNumber(phone_number))
+            {
+                Console.WriteLine("\nError: Invalid phone number! Must be 11 digits and start with '09'.");
+            }
             else
             {
                 var contact = new Contact(first_name, last_name, phone_number);
@@ -82,7 +87,6 @@
             Console.WriteLine("\nPress Any Key to return to menu...");
             Console.ReadKey();
         }
-
         public static void ShowContacts(PhoneBook phoneBook)
         {
             Console.Clear();
@@ -105,13 +109,12 @@
             Console.WriteLine("\nPress Any Key to return to menu...");
             Console.ReadKey();
         }
-
         public static void SearchContact(PhoneBook phoneBook)
         {
             Console.Clear();
             Console.WriteLine(" === Search Contact === ");
 
-            Console.Write("Enter Name or Phone Nember to search: ");
+            Console.Write("Enter Name or Phone Number to search: ");
             var query = Console.ReadLine()?.Trim() ?? "";
 
             var result = phoneBook.SearchContact(query);
@@ -132,7 +135,6 @@
             Console.WriteLine("\nPress Any Key to return to menu...");
             Console.ReadKey();
         }
-
         public static void DeleteContact(PhoneBook phoneBook)
         {
             Console.Clear();
@@ -161,7 +163,6 @@
             Console.WriteLine("\nPress Any Key to return to menu...");
             Console.ReadKey();
         }
-
         public static void EditContact(PhoneBook phoneBook)
         {
             Console.Clear();
@@ -191,8 +192,17 @@
 
                 Console.Write("Enter New Phone Number : ");
                 string newPhone = Console.ReadLine()?.Trim() ?? "";
+                
                 if (string.IsNullOrWhiteSpace(newPhone))
                     newPhone = contact.PhoneNumber;
+
+                else if (!PhoneValidator.IsValidPhoneNumber(newPhone))
+                {
+                    Console.WriteLine("\nError: Invalid phone number! Must be 11 digits and start with '09'.");
+                    Console.WriteLine("Press Any Key to return to menu...");
+                    Console.ReadKey();
+                    return;
+                }
 
                 bool isUpdated = phoneBook.UpdateContact(oldPhone, newFirstName, newLastName, newPhone);
                 if (isUpdated)
