@@ -112,7 +112,7 @@
             Console.WriteLine(" === Search Contact === ");
 
             Console.Write("Enter Name or Phone Nember to search: ");
-            var query = Console.ReadLine();
+            var query = Console.ReadLine()?.Trim() ?? "";
 
             var result = phoneBook.SearchContact(query);
 
@@ -139,7 +139,7 @@
             Console.WriteLine(" === Delete Contact === ");
 
             Console.Write("Enter phone number of the contact to delete: ");
-            string phoneNember = Console.ReadLine();
+            string phoneNember = Console.ReadLine()?.Trim() ?? "";
 
             if (string.IsNullOrWhiteSpace(phoneNember))
             {
@@ -168,7 +168,7 @@
             Console.WriteLine(" === Edit Contact === ");
 
             Console.Write("Enter Exiting phone Number : ");
-            string oldPhone = Console.ReadLine();
+            string oldPhone = Console.ReadLine()?.Trim() ?? "";
 
             var contact = phoneBook.GetByPhoneNumber(oldPhone);
             if (contact == null)
@@ -180,17 +180,17 @@
                 Console.WriteLine($"Current Details: {contact.FirstName} {contact.LastName} - {contact.PhoneNumber}");
 
                 Console.Write("Enter New Name: ");
-                string newFirstName = Console.ReadLine();
+                string newFirstName = Console.ReadLine()?.Trim() ?? "";
                 if (string.IsNullOrWhiteSpace(newFirstName))
                     newFirstName = contact.FirstName;
 
                 Console.Write("Enter Last Name: ");
-                string newLastName = Console.ReadLine();
+                string newLastName = Console.ReadLine()?.Trim() ?? "";
                 if (string.IsNullOrWhiteSpace(newLastName))
                     newLastName = contact.LastName;
 
                 Console.Write("Enter New Phone Number : ");
-                string newPhone = Console.ReadLine();
+                string newPhone = Console.ReadLine()?.Trim() ?? "";
                 if (string.IsNullOrWhiteSpace(newPhone))
                     newPhone = contact.PhoneNumber;
 
