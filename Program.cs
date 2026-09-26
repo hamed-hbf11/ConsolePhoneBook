@@ -13,6 +13,7 @@
                 Console.WriteLine(" === Phone Book System === ");
                 Console.WriteLine("1. Add Contact");
                 Console.WriteLine("2. Show Contacts");
+                Console.WriteLine("3. Search Contact");
                 Console.WriteLine("0. Exit");
                 Console.Write("select an option: ");
                 var input = Console.ReadLine();
@@ -25,8 +26,12 @@
                     case "2":
                         ShowContacts(PhoneBook);
                         break;
+                    case "3":
+                        SearchContact(PhoneBook);
+                        break;
                     case "0":
                         isRunning = false;
+                        Console.WriteLine("Goodbye!");
                         break;
                     default:
                         Console.WriteLine("Invalid option! Please try again.");
@@ -82,6 +87,33 @@
                 foreach (var contact in contacts)
                 {
                     Console.WriteLine($" {++index}. Name: {contact.FirstName} {contact.LastName}, Phone: {contact.PhoneNumber}");
+                }
+            }
+
+            Console.WriteLine("\nPress Any Key to return to menu...");
+            Console.ReadKey();
+        }
+
+        public static void SearchContact(PhoneBook phoneBook)
+        {
+            Console.Clear();
+            Console.WriteLine(" === Search Contact === ");
+
+            Console.Write("Enter Name or Phone Nember to search: ");
+            var query = Console.ReadLine();
+            
+            var result = phoneBook.SearchContact(query);
+
+            Console.WriteLine(" === Search Contact ===");
+            if(result.Count == 0)
+            {
+                Console.WriteLine("No Contacts Found!");
+            }
+            else
+            {
+                foreach (var contact in result)
+                {
+                    Console.WriteLine($"Name: {contact.FirstName} {contact.LastName}, Phone: {contact.PhoneNumber}");
                 }
             }
 

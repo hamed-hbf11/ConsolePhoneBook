@@ -18,5 +18,15 @@ namespace phoneBookApp
         {
             return _contacts.AsReadOnly();
         }
+
+        public List<Contact> SearchContact(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<Contact>();
+
+            return _contacts
+            .Where(c => c.FirstName.Contains(query) ||
+            c.LastName.Contains(query) || c.PhoneNumber.Contains(query)).ToList();
+        }
     }
 }
