@@ -14,6 +14,8 @@
                 Console.WriteLine("1. Add Contact");
                 Console.WriteLine("2. Show Contacts");
                 Console.WriteLine("3. Search Contact");
+                Console.WriteLine("4. Delete Contact");
+                Console.WriteLine("5. Edit Contact");
                 Console.WriteLine("0. Exit");
                 Console.Write("select an option: ");
                 var input = Console.ReadLine();
@@ -28,6 +30,12 @@
                         break;
                     case "3":
                         SearchContact(PhoneBook);
+                        break;
+                    case "4":
+                        DeleteContact(PhoneBook);
+                        break;
+                    case "5":
+                        EditContact(PhoneBook);
                         break;
                     case "0":
                         isRunning = false;
@@ -101,11 +109,11 @@
 
             Console.Write("Enter Name or Phone Nember to search: ");
             var query = Console.ReadLine();
-            
+
             var result = phoneBook.SearchContact(query);
 
             Console.WriteLine(" === Search Contact ===");
-            if(result.Count == 0)
+            if (result.Count == 0)
             {
                 Console.WriteLine("No Contacts Found!");
             }
@@ -115,6 +123,75 @@
                 {
                     Console.WriteLine($"Name: {contact.FirstName} {contact.LastName}, Phone: {contact.PhoneNumber}");
                 }
+            }
+
+            Console.WriteLine("\nPress Any Key to return to menu...");
+            Console.ReadKey();
+        }
+
+        public static void DeleteContact(PhoneBook phoneBook)
+        {
+            Console.Clear();
+            Console.WriteLine(" === Delete Contact === ");
+
+            Console.Write("Enter phone number of the contact to delete: ");
+            string phoneNember = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(phoneNember))
+            {
+                Console.WriteLine("\nError: Phone number cannot be empty!");
+            }
+            else
+            {
+                bool isDeleted = phoneBook.RemoveContact(phoneNember);
+                if (isDeleted)
+                {
+                    Console.WriteLine("\nContact deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("\nContact not found!");
+                }
+            }
+
+            Console.WriteLine("\nPress Any Key to return to menu...");
+            Console.ReadKey();
+        }
+
+        public static void EditContact(PhoneBook phoneBook)
+        {
+            Console.Clear();
+            Console.WriteLine(" === Edit Contact === ");
+
+            Console.Write("Enter Exiting phone Number : ");
+            string oldPhone = Console.ReadLine();
+
+            var contact = phoneBook.GetByPhoneNumber(oldPhone);
+            if (contact == null)
+            {
+                Console.WriteLine("\nContact not Found! ");
+            }
+            else
+            {
+                Console.WriteLine($"Current Details: {contact.FirstName} {contact.LastName} - {contact.PhoneNumber}");
+
+                Console.Write("Enter Nem Name: ");
+                string newFirstName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(newFirstName))
+                    newFirstName = contact.FirstName;
+
+                Console.Write("Enter Last Name: ");
+                string newLastName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(newLastName))
+                    newLastName = contact.LastName;
+
+                Console.Write("Enter New Phone Number : ");
+                string newPhone = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(newPhone))
+                    newPhone = contact.PhoneNumber;
+
+                phoneBook.UpdateContact(oldPhone, newFirstName, newLastName, newPhone);
+                Console.WriteLine("\nContact updated successfully.");
             }
 
             Console.WriteLine("\nPress Any Key to return to menu...");
