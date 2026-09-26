@@ -9,9 +9,17 @@ namespace phoneBookApp
     {
         private List<Contact> _contacts = new List<Contact>();
 
-        public void AddContact(Contact contact)
+        public bool IsPhoneNumberExists(string phoneNumber)
         {
+            return _contacts.Any(c => c.PhoneNumber == phoneNumber);
+        }
+        public bool AddContact(Contact contact)
+        {
+            if (IsPhoneNumberExists(contact.PhoneNumber))
+                return false;
+
             _contacts.Add(contact);
+            return true;
         }
 
         public IReadOnlyList<Contact> GetAllContacts()
@@ -48,6 +56,9 @@ namespace phoneBookApp
             var contact = GetByPhoneNumber(oldPhoneNumber);
 
             if (contact == null)
+                return false;
+
+            if (oldPhoneNumber != newPhoneNumber && IsPhoneNumberExists(newPhoneNumber))
                 return false;
 
             contact.FirstName = newFirstName;

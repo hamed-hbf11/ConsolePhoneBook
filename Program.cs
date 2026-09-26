@@ -71,8 +71,12 @@
             else
             {
                 var contact = new Contact(first_name, last_name, phone_number);
-                phoneBook.AddContact(contact);
-                Console.WriteLine("\nContact added successfully!");
+                bool isAdded = phoneBook.AddContact(contact);
+
+                if (isAdded)
+                    Console.WriteLine("\nContact added successfully!");
+                else
+                    Console.WriteLine("\nThis phone number already exists.");
             }
 
             Console.WriteLine("\nPress Any Key to return to menu...");
@@ -175,7 +179,7 @@
             {
                 Console.WriteLine($"Current Details: {contact.FirstName} {contact.LastName} - {contact.PhoneNumber}");
 
-                Console.Write("Enter Nem Name: ");
+                Console.Write("Enter New Name: ");
                 string newFirstName = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(newFirstName))
                     newFirstName = contact.FirstName;
@@ -190,8 +194,11 @@
                 if (string.IsNullOrWhiteSpace(newPhone))
                     newPhone = contact.PhoneNumber;
 
-                phoneBook.UpdateContact(oldPhone, newFirstName, newLastName, newPhone);
-                Console.WriteLine("\nContact updated successfully.");
+                bool isUpdated = phoneBook.UpdateContact(oldPhone, newFirstName, newLastName, newPhone);
+                if (isUpdated)
+                    Console.WriteLine("\nContact updated successfully.");
+                else
+                    Console.WriteLine("\nError: This phone number already exists.");
             }
 
             Console.WriteLine("\nPress Any Key to return to menu...");
