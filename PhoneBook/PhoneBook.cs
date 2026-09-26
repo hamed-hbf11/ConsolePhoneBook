@@ -13,5 +13,10 @@ namespace phoneBookApp
         {
             _contacts.Add(contact);
         }
+
+        public IReadOnlyList<Contact> GetAllContacts()
+        {
+            return _contacts.AsReadOnly();
+        }
     }
 }
